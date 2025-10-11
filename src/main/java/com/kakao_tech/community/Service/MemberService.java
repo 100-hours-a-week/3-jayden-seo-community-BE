@@ -1,0 +1,85 @@
+package com.kakao_tech.community.Service;
+
+import com.kakao_tech.community.Dto.Member.MemberInfoResponse;
+import com.kakao_tech.community.Dto.Member.RegisterDto;
+import com.kakao_tech.community.Dto.Member.UpdatePasswordDto;
+import com.kakao_tech.community.Dto.Member.UpdateProfileDto;
+import com.kakao_tech.community.Entity.Member;
+import com.kakao_tech.community.Repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class MemberService {
+
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public Long addMember(RegisterDto dto) {
+
+        validateDuplicateMemberEmail(dto.getEmail());
+        validateDuplicateMemberNickname(dto.getNickname());
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        Member member = dto.toEntity(encodedPassword);
+        return memberRepository.save(member).getId();
+    }
+
+    public MemberInfoResponse getMember(Long memberId){
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+        return MemberInfoResponse.from(member);
+    }
+
+    @Transactional
+    public void updateMember(Long memberId, UpdateProfileDto updateProfileDto) {
+        String nickname = updateProfileDto.getNickname();
+        String imageUrl = updateProfileDto.getProfileImageUrl();
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+        if(!member.getNickname().equals(nickname)) {
+            validateDuplicateMemberNickname(nickname);
+            member.setNickname(nickname);
+        }
+
+        if(imageUrl != null){
+            member.setProfileImageUrl(imageUrl);
+        }
+    }
+
+    @Transactional
+    public void updateMemberPassword(Long memberId, UpdatePasswordDto updatePasswordDto) {
+        String password = updatePasswordDto.getPassword();
+        String confirmPassword = updatePasswordDto.getConfirmPassword();
+
+        if(!password.equals(confirmPassword)){
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+        member.setPassword(passwordEncoder.encode(password));
+    }
+
+    public void deleteMember(Long memberId){
+        memberRepository.deleteById(memberId);
+    }
+
+    private void validateDuplicateMemberEmail(String email){
+        if(memberRepository.existsByEmail(email)){
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+    }
+
+    private void validateDuplicateMemberNickname(String nickname){
+        if(memberRepository.existsByNickname(nickname)){
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        }
+    }
+}
