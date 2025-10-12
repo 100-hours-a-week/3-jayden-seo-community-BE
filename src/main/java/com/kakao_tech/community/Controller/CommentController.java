@@ -4,7 +4,6 @@ import com.kakao_tech.community.Dto.Comment.CommentRequest;
 import com.kakao_tech.community.Dto.Comment.CommentResponse;
 import com.kakao_tech.community.Service.CommentService;
 import com.kakao_tech.community.Utils.LoginMember;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +31,8 @@ public class CommentController {
             @PathVariable Long postId,
             @Valid @RequestBody CommentRequest commentRequest,
             @LoginMember Long memberId){
-//        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
-        CommentResponse commentDto = commentService.createComment(postId, memberId, commentRequest.getContent());
 
+        CommentResponse commentDto = commentService.createComment(postId, memberId, commentRequest.getContent());
         return ResponseEntity.ok().body(commentDto);
     }
 
@@ -43,7 +41,7 @@ public class CommentController {
             @PathVariable Long commentId,
             @Valid @RequestBody CommentRequest commentRequest,
             @LoginMember Long memberId){
-//        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
+
         commentService.updateComment(commentId, memberId, commentRequest.getContent());
         return ResponseEntity.noContent().build();
     }
@@ -52,7 +50,7 @@ public class CommentController {
     public ResponseEntity<Void> deleteComment(
             @PathVariable Long commentId,
             @LoginMember Long memberId){
-//        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
+
         commentService.deleteComment(memberId, commentId);
         return ResponseEntity.noContent().build();
     }

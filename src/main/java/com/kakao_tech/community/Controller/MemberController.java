@@ -6,7 +6,6 @@ import com.kakao_tech.community.Dto.Member.UpdatePasswordDto;
 import com.kakao_tech.community.Dto.Member.UpdateProfileDto;
 import com.kakao_tech.community.Service.MemberService;
 import com.kakao_tech.community.Utils.LoginMember;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,32 +30,26 @@ public class MemberController {
 
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberInfoResponse> getMember(
-//            @PathVariable Long memberId,
             @LoginMember Long memberId) {
 
-//        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
         MemberInfoResponse member = memberService.getMember(memberId);
         return ResponseEntity.ok().body(member);
     }
 
     @PutMapping("/{memberId}")
     public ResponseEntity<Void> updateMember(
-//            @PathVariable Long memberId,
             @Valid @RequestBody UpdateProfileDto updateProfileDto,
             @LoginMember Long memberId) {
 
-//        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
         memberService.updateMember(memberId, updateProfileDto);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{memberId}/password")
     public ResponseEntity<Void> updateMemberPassword(
-//            @PathVariable Long memberId,
             @Valid @RequestBody UpdatePasswordDto updatePasswordDto,
             @LoginMember Long memberId) {
 
-//        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
         memberService.updateMemberPassword(memberId, updatePasswordDto);
         return ResponseEntity.noContent().build();
     }
@@ -65,9 +58,7 @@ public class MemberController {
     public ResponseEntity<Void> deleteMember(
             @LoginMember Long memberId){
 
-//        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
         memberService.deleteMember(memberId);
-
         return ResponseEntity.noContent().build();
     }
 }

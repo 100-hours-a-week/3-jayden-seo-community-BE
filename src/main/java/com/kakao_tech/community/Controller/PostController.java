@@ -3,14 +3,12 @@ package com.kakao_tech.community.Controller;
 import com.kakao_tech.community.Dto.Post.*;
 import com.kakao_tech.community.Service.PostService;
 import com.kakao_tech.community.Utils.LoginMember;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,6 +21,7 @@ public class PostController {
     @GetMapping
     public ResponseEntity<PostListScrollResponse> getPosts(
             @RequestParam(value = "lastId", required = false) Long lastId){
+
         PostListScrollResponse postResponse = postService.getPosts(lastId);
         return ResponseEntity.ok().body(postResponse);
     }
@@ -30,6 +29,7 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<PostDetailResponse> getPost(
             @PathVariable Long postId){
+
         PostDetailResponse post = postService.getPostById(postId);
         return ResponseEntity.ok().body(post);
     }
@@ -38,9 +38,8 @@ public class PostController {
     public ResponseEntity<Map<String, Long>> createPost(
             @Valid @RequestBody PostCreateRequest postCreateRequest,
             @LoginMember Long memberId){
-//        Long memberId = (Long)request.getSession(true).getAttribute("memberId");
-        Long postId = postService.createPost(memberId, postCreateRequest);
 
+        Long postId = postService.createPost(memberId, postCreateRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("postId", postId));
     }
 
@@ -49,7 +48,6 @@ public class PostController {
             @PathVariable Long postId,
             @RequestBody PostUpdateRequest updateRequest,
             @LoginMember Long memberId){
-//        Long memberId = (Long)request.getSession(true).getAttribute("memberId");
 
         postService.updatePost(memberId, postId, updateRequest);
         return ResponseEntity.noContent().build();
@@ -59,7 +57,7 @@ public class PostController {
     public ResponseEntity<Void> deletePost(
             @PathVariable Long postId,
             @LoginMember Long memberId){
-//        Long memberId = (Long)request.getSession(true).getAttribute("memberId");
+
         postService.deletePost(memberId, postId);
         return ResponseEntity.noContent().build();
     }
@@ -68,17 +66,16 @@ public class PostController {
     public ResponseEntity<Void> likePost(
             @PathVariable Long postId,
             @LoginMember Long memberId){
-//        Long memberId = (Long)request.getSession(true).getAttribute("memberId");
+
         postService.likePost(memberId, postId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-
     }
 
     @DeleteMapping("/{postId}/like")
     public ResponseEntity<Void> unlikePost(
             @PathVariable Long postId,
             @LoginMember Long memberId){
-//        Long memberId = (Long)request.getSession(true).getAttribute("memberId");
+
         postService.unlikePost(memberId, postId);
         return ResponseEntity.noContent().build();
     }
