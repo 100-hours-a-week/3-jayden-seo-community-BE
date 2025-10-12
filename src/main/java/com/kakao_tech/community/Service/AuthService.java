@@ -1,6 +1,6 @@
 package com.kakao_tech.community.Service;
 
-import com.kakao_tech.community.Dto.Login.LoginDto;
+import com.kakao_tech.community.Dto.Login.LoginRequest;
 import com.kakao_tech.community.Entity.Member;
 import com.kakao_tech.community.Repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -15,10 +15,10 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Long login(LoginDto loginDto){
+    public Long login(LoginRequest loginRequest){
 
-        String email = loginDto.getEmail();
-        String password = loginDto.getPassword();
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
 
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("회원 정보를 찾을 수 없습니다."));

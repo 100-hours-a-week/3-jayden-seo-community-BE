@@ -1,9 +1,9 @@
 package com.kakao_tech.community.Service;
 
 import com.kakao_tech.community.Dto.Member.MemberInfoResponse;
-import com.kakao_tech.community.Dto.Member.RegisterDto;
-import com.kakao_tech.community.Dto.Member.UpdatePasswordDto;
-import com.kakao_tech.community.Dto.Member.UpdateProfileDto;
+import com.kakao_tech.community.Dto.Member.RegisterRequest;
+import com.kakao_tech.community.Dto.Member.UpdatePasswordRequest;
+import com.kakao_tech.community.Dto.Member.UpdateProfileRequest;
 import com.kakao_tech.community.Entity.Member;
 import com.kakao_tech.community.Repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,7 +19,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Long addMember(RegisterDto dto) {
+    public Long addMember(RegisterRequest dto) {
 
         validateDuplicateMemberEmail(dto.getEmail());
         validateDuplicateMemberNickname(dto.getNickname());
@@ -36,9 +36,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(Long memberId, UpdateProfileDto updateProfileDto) {
-        String nickname = updateProfileDto.getNickname();
-        String imageUrl = updateProfileDto.getProfileImageUrl();
+    public void updateMember(Long memberId, UpdateProfileRequest updateProfileRequest) {
+        String nickname = updateProfileRequest.getNickname();
+        String imageUrl = updateProfileRequest.getProfileImageUrl();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found"));
@@ -54,9 +54,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMemberPassword(Long memberId, UpdatePasswordDto updatePasswordDto) {
-        String password = updatePasswordDto.getPassword();
-        String confirmPassword = updatePasswordDto.getConfirmPassword();
+    public void updateMemberPassword(Long memberId, UpdatePasswordRequest updatePasswordRequest) {
+        String password = updatePasswordRequest.getPassword();
+        String confirmPassword = updatePasswordRequest.getConfirmPassword();
 
         if(!password.equals(confirmPassword)){
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");

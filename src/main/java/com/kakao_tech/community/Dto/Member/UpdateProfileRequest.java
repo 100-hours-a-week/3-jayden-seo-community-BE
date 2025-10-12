@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UpdateProfileDto {
+public class UpdateProfileRequest {
 
     @NotBlank(message = "닉네임은 필수입니다.")
     @Size(max = 10, message = "닉네임은 최대 10글자입니다.")

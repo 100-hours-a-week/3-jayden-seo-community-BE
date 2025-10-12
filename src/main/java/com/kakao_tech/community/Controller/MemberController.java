@@ -1,9 +1,9 @@
 package com.kakao_tech.community.Controller;
 
 import com.kakao_tech.community.Dto.Member.MemberInfoResponse;
-import com.kakao_tech.community.Dto.Member.RegisterDto;
-import com.kakao_tech.community.Dto.Member.UpdatePasswordDto;
-import com.kakao_tech.community.Dto.Member.UpdateProfileDto;
+import com.kakao_tech.community.Dto.Member.RegisterRequest;
+import com.kakao_tech.community.Dto.Member.UpdatePasswordRequest;
+import com.kakao_tech.community.Dto.Member.UpdateProfileRequest;
 import com.kakao_tech.community.Service.MemberService;
 import com.kakao_tech.community.Utils.LoginMember;
 import jakarta.validation.Valid;
@@ -22,9 +22,9 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<Map<String, Long>> addMember(
-            @Valid @RequestBody RegisterDto registerDto) {
+            @Valid @RequestBody RegisterRequest registerRequest) {
 
-        Long memberId = memberService.addMember(registerDto);
+        Long memberId = memberService.addMember(registerRequest);
         return ResponseEntity.ok().body(Map.of("memberId", memberId));
     }
 
@@ -38,19 +38,19 @@ public class MemberController {
 
     @PutMapping("/{memberId}")
     public ResponseEntity<Void> updateMember(
-            @Valid @RequestBody UpdateProfileDto updateProfileDto,
+            @Valid @RequestBody UpdateProfileRequest updateProfileRequest,
             @LoginMember Long memberId) {
 
-        memberService.updateMember(memberId, updateProfileDto);
+        memberService.updateMember(memberId, updateProfileRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{memberId}/password")
     public ResponseEntity<Void> updateMemberPassword(
-            @Valid @RequestBody UpdatePasswordDto updatePasswordDto,
+            @Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
             @LoginMember Long memberId) {
 
-        memberService.updateMemberPassword(memberId, updatePasswordDto);
+        memberService.updateMemberPassword(memberId, updatePasswordRequest);
         return ResponseEntity.noContent().build();
     }
 

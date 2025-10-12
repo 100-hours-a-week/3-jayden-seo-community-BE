@@ -1,7 +1,7 @@
 package com.kakao_tech.community.Controller;
 
 
-import com.kakao_tech.community.Dto.Login.LoginDto;
+import com.kakao_tech.community.Dto.Login.LoginRequest;
 import com.kakao_tech.community.Dto.Login.LoginResponse;
 import com.kakao_tech.community.Service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +20,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
-            @Valid @RequestBody LoginDto loginDto,
+            @Valid @RequestBody LoginRequest loginRequest,
             HttpServletRequest request) {
 
-        Long memberId = authService.login(loginDto);
+        Long memberId = authService.login(loginRequest);
         request.getSession().setAttribute("memberId", memberId);
 
         return ResponseEntity.ok(new LoginResponse(memberId, "/posts"));
