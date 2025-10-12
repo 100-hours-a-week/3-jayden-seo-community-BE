@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -28,7 +28,7 @@ public class MemberController {
         return ResponseEntity.ok().body(Map.of("memberId", memberId));
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping
     public ResponseEntity<MemberInfoResponse> getMember(
             @LoginMember Long memberId) {
 
@@ -36,7 +36,7 @@ public class MemberController {
         return ResponseEntity.ok().body(member);
     }
 
-    @PutMapping("/{memberId}")
+    @PutMapping
     public ResponseEntity<Void> updateMember(
             @Valid @RequestBody UpdateProfileRequest updateProfileRequest,
             @LoginMember Long memberId) {
@@ -45,7 +45,7 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{memberId}/password")
+    @PutMapping("/password")
     public ResponseEntity<Void> updateMemberPassword(
             @Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
             @LoginMember Long memberId) {
