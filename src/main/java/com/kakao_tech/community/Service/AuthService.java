@@ -2,6 +2,7 @@ package com.kakao_tech.community.Service;
 
 import com.kakao_tech.community.Dto.Login.LoginRequest;
 import com.kakao_tech.community.Entity.Member;
+import com.kakao_tech.community.Exceptions.CustomExceptions.UnauthorizedException;
 import com.kakao_tech.community.Repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class AuthService {
                 .orElseThrow(() -> new EntityNotFoundException("회원 정보를 찾을 수 없습니다."));
 
         if(!passwordEncoder.matches(password, member.getPassword())){
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+            throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
         }
 
         return member.getId();
