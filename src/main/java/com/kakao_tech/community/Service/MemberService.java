@@ -5,6 +5,7 @@ import com.kakao_tech.community.Dto.Member.RegisterRequest;
 import com.kakao_tech.community.Dto.Member.UpdatePasswordRequest;
 import com.kakao_tech.community.Dto.Member.UpdateProfileRequest;
 import com.kakao_tech.community.Entity.Member;
+import com.kakao_tech.community.Exceptions.CustomExceptions.PasswordMismatchException;
 import com.kakao_tech.community.Repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,12 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public Long addMember(RegisterRequest dto) {
+
+        String password = dto.getPassword();
+        String passwordConfirm = dto.getPasswordConfirm();
+        if(!password.equals(passwordConfirm)) {
+            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+        }
 
         validateDuplicateMemberEmail(dto.getEmail());
         validateDuplicateMemberNickname(dto.getNickname());
