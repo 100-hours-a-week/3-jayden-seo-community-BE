@@ -1,5 +1,6 @@
 package com.kakao_tech.community.Utils;
 
+import com.kakao_tech.community.Exceptions.CustomExceptions.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         Long memberId = (Long) request.getSession(true).getAttribute("memberId");
 
         if(memberId == null){
-            throw new IllegalArgumentException("로그인이 필요합니다.");
+            throw new UnauthorizedException("로그인이 필요합니다.");
         }
 
         return memberId;
