@@ -54,11 +54,12 @@ public class MemberController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping
     public ResponseEntity<Void> deleteMember(
             @LoginMember Long memberId){
 
         memberService.deleteMember(memberId);
+        System.out.println("memberId = " + memberId);
         return ResponseEntity.noContent().build();
     }
 }
