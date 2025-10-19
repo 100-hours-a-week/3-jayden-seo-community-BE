@@ -63,7 +63,7 @@ public class MemberService {
     @Transactional
     public void updateMemberPassword(Long memberId, UpdatePasswordRequest updatePasswordRequest) {
         String password = updatePasswordRequest.getPassword();
-        String confirmPassword = updatePasswordRequest.getConfirmPassword();
+        String confirmPassword = updatePasswordRequest.getPasswordConfirm();
 
         if(!password.equals(confirmPassword)){
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
