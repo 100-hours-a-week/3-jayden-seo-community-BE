@@ -12,7 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Comment extends BaseTimeEntity{
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob

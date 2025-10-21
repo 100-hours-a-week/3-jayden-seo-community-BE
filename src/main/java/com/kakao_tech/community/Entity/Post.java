@@ -13,7 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Post extends BaseTimeEntity{
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
