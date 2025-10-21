@@ -78,13 +78,14 @@ public class MemberService {
         memberRepository.deleteById(memberId);
     }
 
+
     private void validateDuplicateMemberEmail(String email){
         if(memberRepository.existsByEmail(email)){
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         }
     }
 
-    private void validateDuplicateMemberNickname(String nickname){
+    public void validateDuplicateMemberNickname(String nickname){
         if(memberRepository.existsByNickname(nickname)){
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }

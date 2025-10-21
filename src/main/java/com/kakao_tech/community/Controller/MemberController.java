@@ -62,4 +62,12 @@ public class MemberController {
         System.out.println("memberId = " + memberId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/nickname/duplicate")
+    public ResponseEntity<Void> duplicateNickname(
+            @RequestParam String nickname){
+
+        memberService.validateDuplicateMemberNickname(nickname);
+        return ResponseEntity.ok().build();
+    }
 }
