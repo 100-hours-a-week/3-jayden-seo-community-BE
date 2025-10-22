@@ -1,5 +1,6 @@
 package com.kakao_tech.community.Dto.Post;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kakao_tech.community.Entity.Post;
 import com.kakao_tech.community.Entity.PostImage;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class PostDetailResponse {
     private int commentCount;
     private int viewCount;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime updatedAt;
     private List<String> postImageUrls;
 
