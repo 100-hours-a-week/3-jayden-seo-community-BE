@@ -49,7 +49,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void updateComment(Long memberId, Long commentId, String content){
+    public void updateComment(Long commentId, Long memberId, String content){
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment not found"));
 
