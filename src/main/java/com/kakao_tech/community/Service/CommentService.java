@@ -34,6 +34,7 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public CommentResponse createComment(Long postId, Long memberId, String content){
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found"));
@@ -56,6 +57,7 @@ public class CommentService {
         comment.setContent(content);
     }
 
+    @Transactional
     public void deleteComment(Long memberId, Long commentId){
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("Comment not found"));

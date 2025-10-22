@@ -2,7 +2,6 @@ package com.kakao_tech.community.Service;
 
 import com.kakao_tech.community.Dto.Post.*;
 import com.kakao_tech.community.Entity.*;
-import com.kakao_tech.community.Exceptions.CustomExceptions.ForbiddenException;
 import com.kakao_tech.community.Repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +39,7 @@ public class PostService {
         return new PostListScrollResponse(postResponse, hasNext, nextCursor);
     }
 
+    @Transactional
     public PostDetailResponse getPostById(Long postId){
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found"));
