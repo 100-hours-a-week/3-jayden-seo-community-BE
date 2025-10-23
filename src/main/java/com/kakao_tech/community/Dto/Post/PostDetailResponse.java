@@ -23,11 +23,13 @@ public class PostDetailResponse {
     private int commentCount;
     private int viewCount;
 
+    private boolean liked;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime updatedAt;
     private List<String> postImageUrls;
 
-    public static PostDetailResponse from(Post post) {
+    public static PostDetailResponse from(Post post, boolean isLiked) {
         return new PostDetailResponse(
                 post.getId(),
                 post.getTitle(),
@@ -37,6 +39,7 @@ public class PostDetailResponse {
                 post.getPostCounts().getLikeCount(),
                 post.getPostCounts().getCommentCount(),
                 post.getPostCounts().getViewCount(),
+                isLiked,
                 post.getUpdatedAt(),
                 post.getPostImages().stream()
                         .map(PostImage::getImageUrl)

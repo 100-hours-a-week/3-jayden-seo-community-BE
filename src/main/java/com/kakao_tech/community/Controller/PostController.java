@@ -28,9 +28,10 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostDetailResponse> getPost(
-            @PathVariable Long postId){
+            @PathVariable Long postId,
+            @LoginMember Long memberId){
 
-        PostDetailResponse post = postService.getPostById(postId);
+        PostDetailResponse post = postService.getPostById(postId, memberId);
         return ResponseEntity.ok().body(post);
     }
 

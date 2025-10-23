@@ -40,12 +40,13 @@ public class PostService {
     }
 
     @Transactional
-    public PostDetailResponse getPostById(Long postId){
+    public PostDetailResponse getPostById(Long postId, Long memberId){
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new EntityNotFoundException("Post not found"));
 
+        boolean isLiked = postLikeRepository.existsByMemberIdAndPostId(memberId, postId);
         countsRepository.incrementViewCount(postId);
-        return PostDetailResponse.from(post);
+        return PostDetailResponse.from(post, isLiked);
     }
 
     public Long createPost(Long memberId, PostCreateRequest request) {
