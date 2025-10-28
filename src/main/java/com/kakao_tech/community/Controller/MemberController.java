@@ -20,7 +20,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<Map<String, Long>> addMember(
             @Valid @RequestBody RegisterRequest registerRequest) {
 

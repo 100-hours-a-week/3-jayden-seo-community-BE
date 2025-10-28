@@ -1,10 +1,12 @@
 package com.kakao_tech.community.Config;
 
+import com.kakao_tech.community.Config.Interceptor.SessionInterceptor;
 import com.kakao_tech.community.Utils.LoginMemberArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -26,5 +28,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowCredentials(true);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(new SessionInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/auth/login", "/member/register",
+                        "/css/**", "/js/**");
     }
 }
