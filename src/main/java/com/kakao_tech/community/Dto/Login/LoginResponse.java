@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
 
     private Long memberId;
+    private String profileImageUrl;
     private String redirectUrl;
 }

@@ -23,10 +23,9 @@ public class AuthController {
             @Valid @RequestBody LoginRequest loginRequest,
             HttpServletRequest request) {
 
-        Long memberId = authService.login(loginRequest);
-        request.getSession().setAttribute("memberId", memberId);
-
-        return ResponseEntity.ok(new LoginResponse(memberId, "/posts"));
+        LoginResponse loginResponse = authService.login(loginRequest);
+        request.getSession().setAttribute("memberId", loginResponse.getMemberId());
+        return ResponseEntity.ok(loginResponse);
     }
 
     @DeleteMapping("/logout")
