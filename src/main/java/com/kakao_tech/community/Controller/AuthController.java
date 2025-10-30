@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequestMapping("/auth")
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +39,6 @@ public class AuthController {
             session.invalidate();
         }
 
-        return ResponseEntity.ok("로그아웃 성공");
+        return ResponseEntity.noContent().build();
     }
 }

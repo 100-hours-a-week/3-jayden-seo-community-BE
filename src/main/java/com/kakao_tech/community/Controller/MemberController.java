@@ -64,10 +64,10 @@ public class MemberController {
     }
 
     @GetMapping("/nickname/duplicate")
-    public ResponseEntity<Void> duplicateNickname(
+    public ResponseEntity<Map<String, Boolean>> duplicateNickname(
             @RequestParam String nickname){
 
-        memberService.validateDuplicateMemberNickname(nickname);
-        return ResponseEntity.ok().build();
+        boolean result = memberService.checkNicknameExists(nickname);
+        return ResponseEntity.ok().body(Map.of("isValidate", result));
     }
 }
