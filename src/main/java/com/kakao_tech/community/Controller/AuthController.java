@@ -5,6 +5,7 @@ import com.kakao_tech.community.Dto.Login.LoginRequest;
 import com.kakao_tech.community.Dto.Login.LoginResponse;
 import com.kakao_tech.community.Service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequest loginRequest,
-            HttpServletRequest request) {
+            HttpServletResponse response) {
 
-        LoginResponse loginResponse = authService.login(loginRequest);
-        request.getSession().setAttribute("memberId", loginResponse.getMemberId());
+        LoginResponse loginResponse = authService.login(loginRequest, response);
         return ResponseEntity.ok(loginResponse);
     }
 

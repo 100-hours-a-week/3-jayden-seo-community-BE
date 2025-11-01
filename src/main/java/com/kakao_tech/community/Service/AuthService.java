@@ -9,6 +9,8 @@ import com.kakao_tech.community.Repository.MemberRepository;
 import com.kakao_tech.community.Repository.RefreshTokenRepository;
 import com.kakao_tech.community.jwt.JwtProvider;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,8 @@ public class AuthService {
     private static final int ACCESS_TOKEN_EXPIRATION = 15 * 60; // 15분
     private static final int REFRESH_TOKEN_EXPIRATION = 14 * 24 * 3600; // 14일
 
-    public LoginResponse login(LoginRequest loginRequest){
+    public LoginResponse login(LoginRequest loginRequest,
+                               HttpServletResponse response) {
 
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
@@ -39,7 +42,11 @@ public class AuthService {
             throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
         }
 
-        return new LoginResponse(member.getId(), member.getProfileImageUrl(), "/posts");
+        TokenResponse tokenResponse = generateAndSaveTokens(member);
+        addTokenCookie(response, "refreshToken", tokenResponse.refreshToken(), REFRESH_TOKEN_EXPIRATION);
+
+        return new LoginResponse(member.getId(), member.getProfileImageUrl(),
+                tokenResponse.accessToken(), "/posts");
     }
 
     private TokenResponse generateAndSaveTokens(Member member){
@@ -54,6 +61,14 @@ public class AuthService {
         refreshTokenRepository.save(refreshEntity);
 
         return new TokenResponse(accessToken, refreshToken);
+    }
+
+    private void addTokenCookie(HttpServletResponse response, String name, String value, int maxAge) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAge);
+        response.addCookie(cookie);
     }
 
 
