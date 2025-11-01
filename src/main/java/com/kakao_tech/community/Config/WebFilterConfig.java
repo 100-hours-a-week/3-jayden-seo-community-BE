@@ -18,7 +18,7 @@ public class WebFilterConfig {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(jwtAuthFilter);
         filterRegistrationBean.addUrlPatterns("/*");
-        filterRegistrationBean.setOrder(1);
+        filterRegistrationBean.setOrder(2);
         return filterRegistrationBean;
     }
 }
