@@ -78,6 +78,9 @@ public class MemberService {
         memberRepository.deleteById(memberId);
     }
 
+    public boolean checkNicknameExists(String nickname){
+        return memberRepository.existsByNickname(nickname);
+    }
 
     private void validateDuplicateMemberEmail(String email){
         if(memberRepository.existsByEmail(email)){
@@ -85,7 +88,7 @@ public class MemberService {
         }
     }
 
-    public void validateDuplicateMemberNickname(String nickname){
+    private void validateDuplicateMemberNickname(String nickname){
         if(memberRepository.existsByNickname(nickname)){
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }
