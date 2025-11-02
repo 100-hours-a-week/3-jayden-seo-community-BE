@@ -43,7 +43,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
         String method = request.getMethod();
 
-        log.info("URI: {}, Method: {}", uri, method);
         // Preflight 요청 통과
         if ("OPTIONS".equalsIgnoreCase(method)) {
             filterChain.doFilter(request, response);
@@ -98,6 +97,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             var jws = jwtProvider.parse(token);
             Claims body = jws.getBody();
             request.setAttribute("memberId", Long.valueOf(body.getSubject()));
+            log.info(body.get("role").toString());
             request.setAttribute("role", body.get("role"));
             return true;
         } catch(Exception ex) {

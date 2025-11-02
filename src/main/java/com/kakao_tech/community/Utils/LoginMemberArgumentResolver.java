@@ -23,7 +23,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        Long memberId = (Long) request.getSession(true).getAttribute("memberId");
+        Long memberId = (Long) request.getAttribute("memberId");
 
         if(memberId == null){
             throw new UnauthorizedException("로그인이 필요합니다.");

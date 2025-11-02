@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-//@Configuration
+@Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
@@ -22,19 +22,19 @@ public class WebConfig implements WebMvcConfigurer {
         resolvers.add(loginMemberArgumentResolver);
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                .allowCredentials(true);
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry){
-        registry.addInterceptor(new SessionInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/auth/login", "/member/register",
-                        "/css/**", "/js/**");
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://localhost:3000")
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+//                .allowCredentials(true);
+//    }
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry){
+//        registry.addInterceptor(new SessionInterceptor())
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/auth/login", "/member/register",
+//                        "/css/**", "/js/**");
+//    }
 }
