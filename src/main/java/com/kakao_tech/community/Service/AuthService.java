@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
@@ -31,6 +32,7 @@ public class AuthService {
     private static final int ACCESS_TOKEN_EXPIRATION = 15 * 60; // 15분
     private static final int REFRESH_TOKEN_EXPIRATION = 14 * 24 * 3600; // 14일
 
+    @Transactional
     public LoginResponse login(LoginRequest loginRequest,
                                HttpServletResponse response) {
 
@@ -52,10 +54,13 @@ public class AuthService {
                 tokenResponse.accessToken(), "/posts");
     }
 
-    public void logout(HttpServletResponse response) {
+    @Transactional
+    public void logout(HttpServletResponse response, Long memberId) {
         addTokenCookie(response, "refreshToken", null, 0);
+        refreshTokenRepository.deleteByMemberId(memberId);
     }
 
+    @Transactional
     public String refreshToken(String refreshToken) {
         Jws<Claims> parsedRefreshToken = jwtProvider.parse(refreshToken);
 

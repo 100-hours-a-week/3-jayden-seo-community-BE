@@ -5,9 +5,8 @@ import com.kakao_tech.community.Dto.Login.LoginRequest;
 import com.kakao_tech.community.Dto.Login.LoginResponse;
 import com.kakao_tech.community.Exceptions.CustomExceptions.UnauthorizedException;
 import com.kakao_tech.community.Service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.kakao_tech.community.Utils.LoginMember;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +31,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Map<String, String>> refreshToken(@CookieValue(value = "refreshToken", required = false) String refreshToken,
-                             HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> refreshToken(
+            @CookieValue(value = "refreshToken", required = false) String refreshToken) {
         if(refreshToken == null) {
             throw new UnauthorizedException("Invalid refreshToken");
         }
@@ -44,13 +43,10 @@ public class AuthController {
 
     @DeleteMapping("/logout")
     public ResponseEntity<String> logout(
-            HttpServletRequest request){
+            @LoginMember Long memberId,
+            HttpServletResponse response) {
 
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-
+        authService.logout(response, memberId);
         return ResponseEntity.noContent().build();
     }
 }
