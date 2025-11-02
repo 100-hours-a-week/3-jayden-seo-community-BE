@@ -65,10 +65,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        if(!validateAndSetAttributes(token.get(), request)){
-            unAuthorized(response);
+        if(!validateAndSetAttributes(token.get(), request, response)){
             return;
         }
+
         filterChain.doFilter(request, response);
     }
 
@@ -92,15 +92,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 .findFirst();
     }
 
-    private boolean validateAndSetAttributes(String token, HttpServletRequest request) {
+    private boolean validateAndSetAttributes(String token, HttpServletRequest request,
+                                             HttpServletResponse response) throws IOException {
         try{
             var jws = jwtProvider.parse(token);
             Claims body = jws.getBody();
             request.setAttribute("memberId", Long.valueOf(body.getSubject()));
-            log.info(body.get("role").toString());
             request.setAttribute("role", body.get("role"));
             return true;
-        } catch(Exception ex) {
+        } catch(io.jsonwebtoken.ExpiredJwtException ex) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json; charset=UTF-8");
+
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+
+            response.getWriter().write("{\"message\": \"Access Token expired\"}");
             return false;
         }
     }
