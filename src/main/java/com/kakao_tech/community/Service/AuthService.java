@@ -8,6 +8,8 @@ import com.kakao_tech.community.Exceptions.CustomExceptions.UnauthorizedExceptio
 import com.kakao_tech.community.Repository.MemberRepository;
 import com.kakao_tech.community.Repository.RefreshTokenRepository;
 import com.kakao_tech.community.jwt.JwtProvider;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,6 +43,7 @@ public class AuthService {
         if(!passwordEncoder.matches(password, member.getPassword())){
             throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
         }
+        refreshTokenRepository.deleteByMemberId(member.getId());
 
         TokenResponse tokenResponse = generateAndSaveTokens(member);
         addTokenCookie(response, "refreshToken", tokenResponse.refreshToken(), REFRESH_TOKEN_EXPIRATION);
@@ -49,6 +52,25 @@ public class AuthService {
                 tokenResponse.accessToken(), "/posts");
     }
 
+    public void logout(HttpServletResponse response) {
+        addTokenCookie(response, "refreshToken", null, 0);
+    }
+
+    public String refreshToken(String refreshToken) {
+        Jws<Claims> parsedRefreshToken = jwtProvider.parse(refreshToken);
+
+        RefreshToken entity = refreshTokenRepository.findByTokenAndRevokedFalse(refreshToken).orElse(null);
+
+        if(entity == null || entity.getExpiresAt().isBefore(Instant.now())) {
+            throw new UnauthorizedException("Invalid refresh token");
+        }
+
+        Long memberId = Long.valueOf(parsedRefreshToken.getBody().getSubject());
+        Member member = memberRepository.findById(memberId).
+                orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
+
+        return jwtProvider.createAccessToken(member.getId(), member.getEmail());
+    }
     private TokenResponse generateAndSaveTokens(Member member){
         String accessToken = jwtProvider.createAccessToken(member.getId(), member.getEmail());
         String refreshToken = jwtProvider.createRefreshToken(member.getId());
