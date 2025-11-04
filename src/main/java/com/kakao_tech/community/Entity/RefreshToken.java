@@ -16,9 +16,9 @@ public class RefreshToken {
 
     private Long memberId;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 255, nullable = false)
     private String token;
-
+    @Column(nullable = false)
     private Instant expiresAt;
-    private boolean revoked;
+    private boolean revoked = false;
 }
