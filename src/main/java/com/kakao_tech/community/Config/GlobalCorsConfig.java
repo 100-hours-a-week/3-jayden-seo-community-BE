@@ -1,5 +1,6 @@
 package com.kakao_tech.community.Config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -11,11 +12,18 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class GlobalCorsConfig {
 
+    @Value("${CORS_ALLOWED_ORIGINS}")
+    private String corsAllowedOrigins;
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:3000");
+
+        for(String origin: corsAllowedOrigins.split(",")) {
+            config.addAllowedOrigin(origin);
+        }
+
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
