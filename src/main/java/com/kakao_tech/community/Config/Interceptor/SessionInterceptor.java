@@ -21,7 +21,7 @@ public class SessionInterceptor implements HandlerInterceptor {
         }
 
         if(uri.startsWith("/auth/login") || uri.startsWith("/member/register")
-            || uri.startsWith("/css") || uri.startsWith("/js")){
+                || uri.startsWith("/css") || uri.startsWith("/js")){
             return true;
         }
 

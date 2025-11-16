@@ -11,5 +11,6 @@ public class LoginResponse {
 
     private Long memberId;
     private String profileImageUrl;
+    private String accessToken;
     private String redirectUrl;
 }
