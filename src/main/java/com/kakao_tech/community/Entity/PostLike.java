@@ -1,3 +1,4 @@
+
 package com.kakao_tech.community.Entity;
 
 import jakarta.persistence.*;
