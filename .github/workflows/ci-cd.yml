@@ -32,6 +32,11 @@ jobs:
       - name: Build Spring Boot JAR
         run: ./gradlew clean build --no-daemon
 
+      - name: Debug — List all directories
+        run: |
+          pwd
+          ls -R .
+
       # --- DockerHub Login ---
       - name: Login to DockerHub
         uses: docker/login-action@v3
