@@ -1,0 +1,45 @@
+name: Spring Boot Docker CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  spring-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: gradle
+
+      - name: Run Tests
+        working-directory: be-spring
+        run: ./gradlew test --no-daemon
+
+      - name: Build Spring Boot JAR
+        working-directory: be-spring
+        run: ./gradlew clean build --no-daemon
+
+      # --- DockerHub Login ---
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # --- Docker Build & Push ---
+      - name: Build & Push Spring Image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/community-spring:latest ./be-spring
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/community-spring:latest

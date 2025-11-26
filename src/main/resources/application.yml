@@ -17,6 +17,10 @@ spring:
   jackson:
     time-zone: Asia/Seoul
 
+server:
+  servlet:
+    context-path: /api
+
 logging:
   level:
     org.hibernate.SQL: debug
