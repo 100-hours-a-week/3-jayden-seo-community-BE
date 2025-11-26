@@ -23,11 +23,11 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      - name: Run Tests
-        run: ./gradlew test --no-daemon
-
       - name: Set Gradle permissions
         run: chmod +x gradlew
+
+      - name: Run Tests
+        run: ./gradlew test --no-daemon
 
       - name: Build Spring Boot JAR
         run: ./gradlew clean build --no-daemon
