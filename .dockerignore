@@ -1,5 +1,4 @@
 # Gradle build 폴더
-build
 .gradle
 
 # Maven build 폴더
