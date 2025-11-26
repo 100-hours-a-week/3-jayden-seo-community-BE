@@ -1,0 +1,24 @@
+# Gradle build 폴더
+build
+.gradle
+
+# Maven build 폴더
+target
+
+# Logs
+logs
+*.log
+
+# IDE 설정
+.idea
+*.iml
+*.iws
+*.ipr
+.vscode
+
+# Git
+.git
+.gitignore
+
+# OS
+.DS_Store
