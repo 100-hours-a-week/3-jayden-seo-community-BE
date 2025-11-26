@@ -24,7 +24,7 @@ jobs:
           cache: gradle
 
       - name: Run Tests
-        working-directory: be-spring
+        working-directory: community
         run: ./gradlew test --no-daemon
 
       - name: Build Spring Boot JAR
