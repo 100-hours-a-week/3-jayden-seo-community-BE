@@ -26,6 +26,9 @@ jobs:
       - name: Run Tests
         run: ./gradlew test --no-daemon
 
+      - name: Set Gradle permissions
+        run: chmod +x gradlew
+
       - name: Build Spring Boot JAR
         run: ./gradlew clean build --no-daemon
 
