@@ -22,15 +22,11 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: gradle
-      - name: Debug Directory
-        run: ls -R .
 
       - name: Run Tests
-        working-directory: community
         run: ./gradlew test --no-daemon
 
       - name: Build Spring Boot JAR
-        working-directory: be-spring
         run: ./gradlew clean build --no-daemon
 
       # --- DockerHub Login ---
