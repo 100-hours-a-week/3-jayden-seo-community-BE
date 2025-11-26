@@ -39,5 +39,5 @@ jobs:
       # --- Docker Build & Push ---
       - name: Build & Push Spring Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/community-spring:latest ./be-spring
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/community-spring:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/community-spring:latest
