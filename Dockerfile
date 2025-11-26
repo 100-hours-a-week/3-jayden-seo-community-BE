@@ -10,11 +10,7 @@
 #RUN gradle clean bootJar --no-daemon
 
 FROM eclipse-temurin:21-jre-alpine
-
 WORKDIR /app
-
-COPY community/build/libs/*.jar app.jar
-
+COPY build/libs/*.jar app.jar
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
