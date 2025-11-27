@@ -25,7 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
 
     private static final String[] EXCLUDE_PATH = {
-            "/auth/login", "/member/register"
+            "/api/auth/login", "/api/member/register", "/api/test"
     };
 
     @Override
