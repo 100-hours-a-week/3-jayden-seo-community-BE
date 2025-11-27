@@ -21,7 +21,7 @@ public class GlobalCorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         for(String origin: corsAllowedOrigins.split(",")) {
-            config.addAllowedOrigin(origin);
+            config.addAllowedOrigin(origin.trim());
         }
 
         config.addAllowedMethod("*");
