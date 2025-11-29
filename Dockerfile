@@ -8,7 +8,6 @@
 #
 #COPY . .
 #RUN gradle clean bootJar --no-daemon
-
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
