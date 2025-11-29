@@ -45,22 +45,22 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/community-be:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/community-be:latest
 
-  spring-cd:
-    needs: spring-ci
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Prepare SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to EC2 via Docker Compose
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER}}@${{ secrets.SERVER_HOST }} << 'EOF'
-              cd /home/${{ secrets.SERVER_USER }}/be
-              docker compose pull
-              docker compose up -d
-          EOF
+#  spring-cd:
+#    needs: spring-ci
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Prepare SSH key
+#        run: |
+#          mkdir -p ~/.ssh
+#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#          chmod 600 ~/.ssh/id_rsa
+#          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+#
+#      - name: Deploy to EC2 via Docker Compose
+#        run: |
+#          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER}}@${{ secrets.SERVER_HOST }} << 'EOF'
+#              cd /home/${{ secrets.SERVER_USER }}/be
+#              docker compose pull
+#              docker compose up -d
+#          EOF
