@@ -1,5 +1,5 @@
-# DailyShare
-> DailyShare 프로젝트의 백엔드 리포지토리입니다.
+# Daily Share
+> Daily Share 프로젝트의 백엔드 리포지토리입니다.
 ## **📌** 프로젝트 개요
 
 ### 서비스 소개
