@@ -3,8 +3,10 @@ package com.kakao_tech.community.Service;
 import com.kakao_tech.community.Dto.Member.RegisterRequest;
 import com.kakao_tech.community.Dto.Member.UpdatePasswordRequest;
 import com.kakao_tech.community.Entity.Member;
+import com.kakao_tech.community.Exceptions.CustomExceptions.DuplicateException;
 import com.kakao_tech.community.Exceptions.CustomExceptions.PasswordMismatchException;
 import com.kakao_tech.community.Repository.MemberRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,7 +64,7 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("Member Create Test - 비밀번호 != 비밀번호 확인")
+    @DisplayName("Member Create Test - 존재하는 Email")
     public void createMemberFailTest() {
         RegisterRequest request = new RegisterRequest(
                 "test@email.com",
@@ -72,7 +74,7 @@ class MemberServiceTest {
                 "image@url.com");
 
         when(memberRepository.existsByEmail(request.getEmail())).thenReturn(true);
-        assertThrows(IllegalArgumentException.class, ()
+        assertThrows(DuplicateException.class, ()
             -> memberService.addMember(request));
     }
 
