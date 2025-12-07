@@ -5,6 +5,7 @@ import com.kakao_tech.community.Dto.Member.RegisterRequest;
 import com.kakao_tech.community.Dto.Member.UpdatePasswordRequest;
 import com.kakao_tech.community.Dto.Member.UpdateProfileRequest;
 import com.kakao_tech.community.Entity.Member;
+import com.kakao_tech.community.Exceptions.CustomExceptions.DuplicateException;
 import com.kakao_tech.community.Exceptions.CustomExceptions.PasswordMismatchException;
 import com.kakao_tech.community.Repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -66,7 +67,7 @@ public class MemberService {
         String confirmPassword = updatePasswordRequest.getPasswordConfirm();
 
         if(!password.equals(confirmPassword)){
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
         }
 
         Member member = memberRepository.findById(memberId)
@@ -84,13 +85,13 @@ public class MemberService {
 
     private void validateDuplicateMemberEmail(String email){
         if(memberRepository.existsByEmail(email)){
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new DuplicateException("이미 존재하는 이메일입니다.", "email");
         }
     }
 
     private void validateDuplicateMemberNickname(String nickname){
         if(memberRepository.existsByNickname(nickname)){
-            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+            throw new DuplicateException("이미 존재하는 닉네임입니다.", "nickname");
         }
     }
 }
