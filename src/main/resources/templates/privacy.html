@@ -137,7 +137,7 @@
     <p class="last-modified">최종 수정일: <span th:text="${lastModified}">2025.10.25</span></p>
 
     <div class="highlight-box">
-        <p><strong>[<span th:text = "${serviceName}">서비스명 </span>]</strong>은(는) 이용자의 개인정보를 소중히 여기며, 개인정보보호법 등 관련 법령을 준수하고 있습니다.</p>
+        <p><strong><span th:text = "${serviceName}">서비스명 </span></strong>은(는) 이용자의 개인정보를 소중히 여기며, 개인정보보호법 등 관련 법령을 준수하고 있습니다.</p>
     </div>
 
     <h2>1. 수집하는 개인정보 항목</h2>
@@ -256,8 +256,8 @@
     <div class="highlight-box">
         <p><strong>개인정보 보호책임자</strong></p>
         <ul style="list-style: none; padding-left: 0;">
-            <li>이름: [<span th:text="${officerName}">담당자명]</span>]</li>
-            <li>이메일: privacy@example.com</li>
+            <li>이름: <span th:text="${officerName}">담당자명</span></li>
+            <li>이메일: sde101573@gmail.com</li>
             <li>전화번호: 02-1234-5678</li>
         </ul>
     </div>
@@ -278,7 +278,6 @@
         본 방침은 <span th:text="${lastModified}">2025.10.25</span>부터 시행됩니다.
     </p>
 
-    <a href="javascript:history.back()" class="btn-close">돌아가기</a>
 </div>
 </body>
 </html>

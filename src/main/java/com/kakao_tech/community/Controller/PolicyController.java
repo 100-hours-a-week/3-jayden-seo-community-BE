@@ -9,16 +9,16 @@ public class PolicyController {
 
     @GetMapping("/terms")
     public String terms(Model model) {
-        model.addAttribute("lastModified", "2025.10.25");
-        model.addAttribute("serviceName", "Community");
+        model.addAttribute("lastModified", "2025.12.07");
+        model.addAttribute("serviceName", "Daily Share");
         model.addAttribute("officerName", "jayden");
         return "terms";
     }
 
     @GetMapping("/privacy")
     public String privacy(Model model) {
-        model.addAttribute("lastModified", "2025.10.25");
-        model.addAttribute("serviceName", "Community");
+        model.addAttribute("lastModified", "2025.12.07");
+        model.addAttribute("serviceName", "Daily Share");
         model.addAttribute("officerName", "jayden");
         return "privacy";
     }
