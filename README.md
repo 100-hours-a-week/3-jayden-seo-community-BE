@@ -69,8 +69,8 @@ community/
         │   │   └── util/
         │   └── resources/
         │       ├── templates/
-				│       │    ├── privacy.html
-				│       │    └── terms.html      
+		│		│       │    ├── privacy.html
+		│		│       │    └── terms.html      
         │       └── application.properties
         └── test/
             └── java/com/jayden/community/
