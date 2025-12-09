@@ -25,7 +25,7 @@
 - **ORM**: JPA / Hibernate
 - **Security**: BCrypt, JWT
 - **Infra / DevOps**
-    - Docker, Docker Compose
+    - Nginx, Docker, Docker Compose
     - AWS EC2, VPC, S3, CloudFront
     - Lambda, API Gateway
     - RDS, ECR
